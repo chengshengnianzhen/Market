@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+     >  
+    <Button android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/main_activity_above_picture"
+        android:id="@+id/main_activtiy_above_pirture"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:text="拍照"
+        android:textSize="40sp"
+        android:layout_marginTop="30dp"/>
+    <Button android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/main_activity_above_video"
+        android:id="@+id/main_activtiy_above_video"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:text="摄像"
+        android:textSize="40sp"
+        android:layout_marginTop="30dp"/>
+    <Button android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/main_activity_above_upload"
+        android:id="@+id/main_activtiy_above_upload"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:text="上传"
+        android:textSize="40sp"
+        android:layout_marginTop="30dp"/>
+    <Button android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/main_activity_above_download"
+        android:id="@+id/main_activtiy_above_download"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:text="下载"
+        android:textSize="40sp"
+        android:layout_marginTop="30dp"/>
+</LinearLayout>

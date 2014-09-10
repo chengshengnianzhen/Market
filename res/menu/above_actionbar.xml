@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+        <item android:id="@+id/menu_picture"  
+              android:icon="@drawable/main_activity_above_picture"  
+              android:title="menu_phone" 
+              android:showAsAction="ifRoom"               
+         />
+         <item android:id="@+id/menu_video"  
+              android:icon="@drawable/main_activity_above_video"  
+              android:title="menu_video" 
+              android:showAsAction="ifRoom"               
+         />
+         <item android:id="@+id/menu_download"
+             android:icon="@drawable/main_activity_above_download"
+             android:title="menu_download"
+             android:showAsAction="ifRoom"
+             />
+         <item android:id="@+id/menu_upload"
+             android:icon="@drawable/main_activity_above_upload"
+             android:title="menu_upload"
+             android:showAsAction="ifRoom"/>
+</menu>

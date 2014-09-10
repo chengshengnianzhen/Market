@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background3" >
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:orientation="vertical">
+    <EditText android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:hint="企业名称或者注册号"
+        android:id="@+id/main_activity_centerright_edit" 
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:background="@drawable/white"
+        android:layout_marginTop="150dp"       
+     />
+    </LinearLayout>
+   <LinearLayout 
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" 
+				android:orientation="horizontal"
+				android:layout_marginLeft="10dp" 
+				android:layout_marginRight="10dp"
+				android:layout_gravity="end">
+	<Button 
+		android:id="@+id/main_activity_centerright_start"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:layout_weight="1"
+		android:text="查询"/>
+		<Button 
+		android:id="@+id/main_activity_centerright_return"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:layout_weight="1"
+		android:text="返回"/>
+		</LinearLayout>
+    
+
+</LinearLayout>

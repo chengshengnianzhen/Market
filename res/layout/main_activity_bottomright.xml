@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background3" >
+   <TextView android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:textSize="20sp"
+       android:text="1、坚持依法巡查的原则；"
+       android:layout_marginLeft="20dp"
+       android:layout_marginTop="20dp"
+       />
+     <TextView android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:textSize="20sp"
+       android:text="2、坚持效率、统一、合理分工与内部权力互相制约的原则；"
+       android:layout_marginLeft="20dp"
+       android:layout_marginTop="5dp"
+       />
+     <TextView android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:textSize="20sp"
+       android:text="3、坚持公正、公平、公开、廉洁原则"
+       android:layout_marginLeft="20dp"
+       android:layout_marginTop="5dp"
+       />
+     <TextView android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:textSize="20sp"
+       android:text="4、实施目标管理、属地管理、责任追究、普遍巡查原则"
+       android:layout_marginLeft="20dp"
+       android:layout_marginTop="5dp"
+       />
+     <TextView android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:textSize="20sp"
+       android:text="5、坚持为经济发展服务的原则"
+       android:layout_marginLeft="20dp"
+       android:layout_marginTop="5dp"
+       />
+     <TextView android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:textSize="20sp"
+       android:text="6、接受社会监督的原则"
+       android:layout_marginLeft="20dp"
+       android:layout_marginTop="5dp"
+       />
+
+</LinearLayout>
