@@ -26,7 +26,7 @@ public class Main_activity_above_upload  extends BaseActivity{
     private List<String> paths = null;  
     private String rootPath = "/storage/sdcard0/Pictures/MyMarketApp";
     private TextView textView =null;
-    protected void onCreate(Bundle icicle) {  
+    public void onCreate(Bundle icicle) {  
         super.onCreate(icicle);  
         setContentView(R.layout.main_activity_above_upload);  
         items = new ArrayList<String>();  

@@ -42,8 +42,8 @@ public class Main_activity_aboveright extends BaseActivity {
 	TextView textView1;
 	Button requestLocButton;
 	boolean isFirstLoc = true;// 是否首次定位
-    @Override  
-    protected void onCreate(Bundle savedInstanceState) {  
+    @Override
+	public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);   
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext  
         //注意该方法要再setContentView方法之前实现  

@@ -12,7 +12,7 @@ import android.widget.Button;
 
 public class Main_activity_centerright extends BaseActivity
 {
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity_centerright);
 		setTitle("Ñ²²é¼ÇÂ¼");

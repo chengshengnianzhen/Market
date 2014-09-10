@@ -23,8 +23,8 @@ public class Main_activity_aboveleft extends BaseActivity
 {
 	ActionBar actionBar;
 	private boolean ture;
-	@Override 
-	protected void onCreate(Bundle savedInstanceState) {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.main_activity_aboveleft);

@@ -20,7 +20,7 @@ import android.widget.Spinner;
 public class Main_activity_bottomright extends BaseActivity
 {
 
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity_bottomright);
 		setTitle("市场巡查原则");

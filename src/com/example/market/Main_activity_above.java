@@ -28,7 +28,7 @@ public class Main_activity_above extends BaseActivity {
     
     private Uri fileUri;
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity_above);
 		 takePicBtn = (Button) findViewById(R.id.main_activtiy_above_pirture);

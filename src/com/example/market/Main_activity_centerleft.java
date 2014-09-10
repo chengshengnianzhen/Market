@@ -43,9 +43,8 @@ public class Main_activity_centerleft extends BaseActivity{
 		BitmapDescriptor mCurrentMarker;
 		boolean isFirstLoc = true;
 		Button requestLocButton;
-	@Override  
-	
-    protected void onCreate(Bundle savedInstanceState) {  
+	@Override
+	public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.main_activity_centerleft);

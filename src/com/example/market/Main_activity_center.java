@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 public class Main_activity_center extends BaseActivity
 {
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity_center);
 		setTitle("∆Û“µ—≤≤È");

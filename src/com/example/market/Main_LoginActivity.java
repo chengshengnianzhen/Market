@@ -55,9 +55,9 @@ public class Main_LoginActivity extends Activity {
           if(sp.getBoolean("AUTO_ISCHECK", false))  
           {  
                  //设置默认是自动登录状态  
-                 auto_login.setChecked(true);  
+                auto_login.setChecked(true);  
                 //跳转界面  
-                Intent intent = new Intent(Main_LoginActivity.this,Main_LoginActivity.class);  
+                Intent intent = new Intent(Main_LoginActivity.this,Main_activity.class);  
                 Main_LoginActivity.this.startActivity(intent);  
                   
           }  
@@ -81,9 +81,15 @@ public class Main_LoginActivity extends Activity {
                       editor.putString("USER_NAME", userNameValue);  
                       editor.putString("PASSWORD",passwordValue);  
                       editor.commit();  
-                    }  
+                    }
+                    else {
+                    	Editor editor = sp.edit();  
+                        editor.putString("USER_NAME", "");  
+                        editor.putString("PASSWORD","");  
+                        editor.commit(); 
+					}
                     //跳转界面  
-                    Intent intent = new Intent(Main_LoginActivity.this,Main_LoginActivity.class);  
+                    Intent intent = new Intent(Main_LoginActivity.this,Main_logoActivity.class);  
                     Main_LoginActivity.this.startActivity(intent);  
                     //finish();  
                       

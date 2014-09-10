@@ -11,10 +11,10 @@ import android.view.Window;
 import com.example.market.Main_activity;
 import com.example.market.R;
 
-public class BaseActivity extends Activity
+public class BaseActivity extends MenuActivity
 {
 	ActionBar actionBar;
-	protected  void onCreate(Bundle savedInstanceState) {
+	public  void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		actionBar =getActionBar();
@@ -34,6 +34,7 @@ public class BaseActivity extends Activity
 	            // 当ActionBar图标被点击时调用  
 	        	// TODO Auto-generated method stub
 				Intent intent=new Intent(this,Main_activity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				finish();
 	            break;  

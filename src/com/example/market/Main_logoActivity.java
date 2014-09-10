@@ -1,26 +1,20 @@
 package com.example.market;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Activity;  
 import android.content.Intent;  
-import android.content.SharedPreferences;  
-import android.content.SharedPreferences.Editor;  
-import android.opengl.ETC1;  
 import android.os.Bundle;  
 import android.view.View;  
 import android.view.View.OnClickListener;  
 import android.view.Window;  
-import android.view.animation.AlphaAnimation;  
-import android.view.animation.Animation;  
-import android.view.animation.Animation.AnimationListener;  
 import android.widget.Button;  
-import android.widget.ImageButton;  
-import android.widget.ImageView;  
 import android.widget.ProgressBar;  
   
 public class Main_logoActivity extends Activity {  
     private ProgressBar progressBar;  
     private Button backButton;  
-  
     protected void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
         // È¥³ý±êÌâ  
@@ -28,11 +22,18 @@ public class Main_logoActivity extends Activity {
         setContentView(R.layout.logo);  
   
         progressBar = (ProgressBar) findViewById(R.id.pgBar);  
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask(){
+         @Override
+         public void run() {
+         Intent intent = new Intent(Main_logoActivity.this,Main_activity.class);
+         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+         startActivity(intent);
+         finish();
+         }
+        };
+        timer.schedule(task, 1000);
         backButton = (Button) findViewById(R.id.btn_back);  
-  
-        Intent intent = new Intent(this, Main_activity.class);  
-        Main_logoActivity.this.startActivity(intent);  
-  
         backButton.setOnClickListener(new OnClickListener() {  
   
             @Override  
@@ -43,5 +44,6 @@ public class Main_logoActivity extends Activity {
         });  
   
     }  
+    
   
 }  

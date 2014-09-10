@@ -1,19 +1,33 @@
 package com.example.market;
 
+import com.example.market.activity.MenuActivity;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-public class Main_activity extends Activity
+ public class Main_activity extends MenuActivity
 {
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_activity);
+		init();
+	}
+	private void init(){
 		ImageButton imageButton_aboveleft=(ImageButton)findViewById(R.id.main_activity_aboveleft);
 		imageButton_aboveleft.setOnClickListener(new OnClickListener() {			
 			@Override
@@ -104,4 +118,69 @@ public class Main_activity extends Activity
 			}
 		});
 	}
+	private boolean isExit;
+    @Override  
+    public boolean onKeyDown(int keyCode, KeyEvent event) {  
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {  
+        	
+                 exit();  
+
+                 return false;  
+
+             } else {  
+
+                 return super.onKeyDown(keyCode, event);  
+
+             }  
+    }  
+
+    public void exit()
+    {
+    	if(!isExit)
+    	{
+    		isExit=true;
+    		Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+    		mHandler.sendEmptyMessageDelayed(0,2000);
+ 
+    	}
+    	else {  
+    		
+    		//sp.edit().putBoolean("AUTO_ISCHECK", false).commit();
+    		
+            Intent intent = new Intent(Intent.ACTION_MAIN);  
+
+            intent.addCategory(Intent.CATEGORY_HOME);  
+
+            startActivity(intent);  
+
+            System.exit(0);  
+
+        }  
+    }
+
+
+    	Handler mHandler = new Handler(){  
+
+  
+
+        @Override  
+
+        public void handleMessage(Message msg) {  
+
+            // TODO Auto-generated method stub   
+
+            super.handleMessage(msg);  
+
+            isExit = false;  
+
+        }  
+
+  
+
+    };
+    public void onResume(){
+     super.onResume();
+     init();
+    }
+
 }

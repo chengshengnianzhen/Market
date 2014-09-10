@@ -20,7 +20,7 @@ import android.widget.Spinner;
 public class Main_activity_bottom extends BaseActivity
 {
 
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_activity_bottom);

@@ -22,7 +22,7 @@ public class Main_activity_bottomleft extends BaseActivity{
 	private EditText editTextnumber;
 	private Spinner mSpinner;
 	private EditText editTextbody;
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity_bottomleft);
 		setTitle("Î¥¹æ³Ì¶È");

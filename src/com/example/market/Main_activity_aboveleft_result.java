@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class  Main_activity_aboveleft_result extends BaseActivity{
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity_aboveleft_result);
 		Bundle extras = getIntent().getExtras();
