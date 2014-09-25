@@ -1,10 +1,13 @@
 package com.example.market;
 import java.io.File;
 import com.example.market.activity.BaseActivity;
+import com.example.market.db.Userinfo;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,9 +15,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 public class Main_activity_above extends BaseActivity {
@@ -25,7 +28,7 @@ public class Main_activity_above extends BaseActivity {
     private Button takePicBtn = null;
     private Button takeVideoBtn = null;
     private Button uploadBtnButton =null;
-    
+    private Button download;
     private Uri fileUri;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,30 @@ public class Main_activity_above extends BaseActivity {
 				startActivity(intent);
 			}
 		});
+	     download=(Button)findViewById(R.id.main_activtiy_above_download);
+	     download.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					DbUtils dbUtil=DbUtils.create(Main_activity_above.this,"market");
+			    	Userinfo userinfo = null;
+					try {
+						userinfo = dbUtil.findById(Userinfo.class, 1);
+					} catch (DbException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if(userinfo.isIsnetwork())
+					{
+						Intent intent=new Intent(Main_activity_above.this,Main_activity_above_download.class);
+						startActivity(intent);
+					}else {
+						Toast.makeText(Main_activity_above.this, "登录时没有联网，请重新登录", Toast.LENGTH_LONG).show();
+					}
+				}
+			});
+	     
 	    
 	}
 	private final OnClickListener takePiClickListener = new View.OnClickListener()

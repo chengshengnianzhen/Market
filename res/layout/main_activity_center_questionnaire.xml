@@ -139,7 +139,9 @@
     			     android:layout_width="wrap_content" 
     			     android:layout_height="wrap_content" 
     			     android:id="@+id/main_activity_center_1radiogroup3_chock2" 
-    			     android:text="否"></RadioButton>    	
+    			     android:text="否">
+    			     
+    			 </RadioButton>    	
     			 </RadioGroup>
     			 <EditText 
     			     android:layout_width="wrap_content"
@@ -922,6 +924,47 @@
     			     android:id="@+id/main_activity_center_4radiogroup2_edit"/>
     			 </LinearLayout>			
 			</LinearLayout>
+			<LinearLayout 
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" 
+				android:orientation="vertical"
+				android:layout_marginRight="10dp" 
+				android:layout_marginLeft="10dp">
+			<TextView 
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content" 
+					android:text="3、房屋和柜台租赁有关手续是否健全?"
+					android:textSize="20sp" />
+			<LinearLayout 
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    >
+			 <RadioGroup 
+			 	    android:id="@+id/main_activity_center_4radiogroup3"  
+			 	    android:orientation="horizontal"
+			 	    android:layout_width="wrap_content" 
+			 	    android:layout_height="wrap_content">
+   				<RadioButton 
+   				    android:layout_width="wrap_content" 
+   				    android:layout_height="wrap_content" 
+   				    android:id="@+id/main_activity_center_4radiogroup3_chock1" 
+   				    android:text="是" 
+   				    android:checked="true"
+   				    ></RadioButton>
+    			 <RadioButton 
+    			     android:layout_width="wrap_content" 
+    			     android:layout_height="wrap_content" 
+    			     android:id="@+id/main_activity_center_4radiogroup3_chock2" 
+    			     android:text="否"
+    			     ></RadioButton>    	
+    			 </RadioGroup>
+    			 <EditText 
+    			     android:layout_width="wrap_content"
+    			     android:layout_height="wrap_content"
+    			     android:id="@+id/main_activity_center_4radiogroup3_edit"/>
+    			 </LinearLayout>			
+			</LinearLayout>
 			  <LinearLayout 
 			      android:layout_width="fill_parent"
 			      android:layout_height="wrap_content"
@@ -950,7 +993,8 @@
 				android:layout_height="wrap_content" 
 				android:orientation="horizontal"
 				android:layout_marginLeft="10dp" 
-				android:layout_marginRight="10dp">
+				android:layout_marginRight="10dp"
+				android:id="@+id/linearLayout">
 	<Button 
 		android:id="@+id/main_activity_center_questionnaireupload"
 		android:layout_width="wrap_content"

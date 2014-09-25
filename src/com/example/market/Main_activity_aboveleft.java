@@ -1,23 +1,22 @@
 package com.example.market;
 
-import org.apache.http.impl.client.TunnelRefusedException;
-
 import com.example.market.activity.BaseActivity;
+import com.example.market.db.Userinfo;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class Main_activity_aboveleft extends BaseActivity
 {
@@ -25,10 +24,8 @@ public class Main_activity_aboveleft extends BaseActivity
 	private boolean ture;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.main_activity_aboveleft);
-		
+		super.onCreate(savedInstanceState);		
+		setContentView(R.layout.main_activity_aboveleft);		
 		actionBar =getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();	
@@ -39,18 +36,34 @@ public class Main_activity_aboveleft extends BaseActivity
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(editText.getText().toString().length()==0)
+				DbUtils dbUtil=DbUtils.create(Main_activity_aboveleft.this,"matket");
+		    	Userinfo userinfo = null;
+				try {
+					userinfo = dbUtil.findById(Userinfo.class, 1);
+				} catch (DbException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				LogUtils.d(userinfo.getUsername());
+				LogUtils.d(userinfo.getPassword());				
+				LogUtils.d(String.valueOf(userinfo.isIsnetwork()));
+				if(userinfo.isIsnetwork())
 				{
-					editText.setHint("请输入");//判断是否为空
+					if(editText.getText().toString().length()==0)
+					{
+						editText.setHint("请输入");//判断是否为空
+					}
+					else {
+						Intent intent=new Intent(Main_activity_aboveleft.this,Main_activity_aboveleft_list.class);
+						intent.putExtra("company", editText.getText().toString());
+						startActivity(intent);
+					}
+				}else {
+					Toast.makeText(Main_activity_aboveleft.this,"登录时没有联网，请重新登录" ,Toast.LENGTH_LONG ).show();
 				}
-				else {
-					Intent intent=new Intent(Main_activity_aboveleft.this,Main_activity_aboveleft_result.class);
-					intent.putExtra("name", editText.getText().toString());//传入数据要查询的数据
-					startActivity(intent);
-				}
-			}
-		});
 				
+			}
+		});				
 	}
 	 public boolean onCreateOptionsMenu(Menu menu) {
 	        // Inflate the menu; this adds items to the action bar if it is present.
@@ -70,9 +83,22 @@ public class Main_activity_aboveleft extends BaseActivity
 				finish();
 				return true;
 	        case R.id.menu_erwei:
-	        	Intent intent1=new Intent(Main_activity_aboveleft.this,Main_activity_aboveleft_qr.class);
-				startActivity(intent1);//进入二维码的页面
-				return ture;
+				DbUtils dbUtil=DbUtils.create(Main_activity_aboveleft.this,"market");
+		    	Userinfo userinfo = null;
+				try {
+					userinfo = dbUtil.findById(Userinfo.class, 1);
+				} catch (DbException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(userinfo.isIsnetwork())
+				{
+			        Intent intent1=new Intent(Main_activity_aboveleft.this,Main_activity_aboveleft_qr.class);
+					startActivity(intent1);//进入二维码的页面
+				}else {
+					Toast.makeText(Main_activity_aboveleft.this,"登录时没有联网，请重新登录" ,Toast.LENGTH_LONG ).show();
+				}
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 	        }  

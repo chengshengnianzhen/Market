@@ -1,17 +1,22 @@
 package com.example.market;
 
-import com.example.market.activity.MenuActivity;
+import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
+import com.example.market.activity.MenuActivity;
+import com.example.market.activity.MyApplication;
+import com.example.market.db.Userinfo;
+import com.example.market.web.HttpUtil;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +26,8 @@ import android.widget.Toast;
 
  public class Main_activity extends MenuActivity
 {
+	private int resCode=-1;
+	private String resMsg;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -146,41 +153,79 @@ import android.widget.Toast;
     	else {  
     		
     		//sp.edit().putBoolean("AUTO_ISCHECK", false).commit();
-    		
-            Intent intent = new Intent(Intent.ACTION_MAIN);  
-
-            intent.addCategory(Intent.CATEGORY_HOME);  
-
-            startActivity(intent);  
-
-            System.exit(0);  
-
+    		DbUtils dbUtil=DbUtils.create(this);
+        	Userinfo userinfo = null;
+    		try {
+    			userinfo = dbUtil.findById(Userinfo.class, 1);
+    		} catch (DbException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    		if(userinfo.isIsnetwork())
+			{
+	    		MyApplication application = (MyApplication)getApplication();
+				int userId= application.getCurIndex();
+				String urlString=application.getUrl();
+				Log.d("userId",String.valueOf(userId));
+				GetFromservice(userId,urlString);
+			}else {
+				Intent intent = new Intent(Intent.ACTION_MAIN);			
+	        	intent.addCategory(Intent.CATEGORY_HOME);  
+	        	startActivity(intent); 
+	        	System.exit(0);
+			}
         }  
     }
-
-
     	Handler mHandler = new Handler(){  
-
-  
-
         @Override  
-
         public void handleMessage(Message msg) {  
-
             // TODO Auto-generated method stub   
-
             super.handleMessage(msg);  
-
             isExit = false;  
+            }   
+   };
+    
+    private int GetFromservice(int userId,String uString) {
+		System.out.println("GetFromservice");
+		RequestParams params = new RequestParams(); // 绑定参数
+		params.put("userId", String.valueOf(userId));
+		String url=uString+"android/logout.jsp";
+		HttpUtil.get(url ,params, new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(JSONObject response) {
+						System.out.println("success:"+response.toString());
+						try {
+							resCode = response.getInt("resCode");
+							resMsg = response.getString("resMsg");
+							System.out.println("resCode,resMsg,userId"+resMsg);
+							if (resCode == 0) {
+								System.out.println("end");
+								Intent intent = new Intent(Intent.ACTION_MAIN);			
+					        	intent.addCategory(Intent.CATEGORY_HOME);  
+					        	startActivity(intent); 
+					        	System.exit(0);
+							}else {
+								Toast.makeText(Main_activity.this, "退出失败，请重新退出",
+										Toast.LENGTH_LONG).show();
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							System.out.println("Error:" + e.toString());
+							resCode = -1;							
+							Toast.makeText(Main_activity.this, "退出失败，请重新退出",
+									Toast.LENGTH_LONG).show();
+						}
+					}
 
-        }  
-
-  
-
-    };
-    public void onResume(){
-     super.onResume();
-     init();
-    }
+					@Override
+					public void onFailure(Throwable rThrowable) {
+						System.out.println(rThrowable);
+					}
+				});
+		System.out.println("resCode:" + resCode);
+		return resCode;
+	}
+    
 
 }

@@ -1,7 +1,6 @@
 package com.example.market;
-import java.util.ArrayList;
-import java.util.HashMap;
 
+import org.json.JSONObject;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -16,21 +15,22 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfigeration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.MyLocationConfigeration.LocationMode;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.example.market.activity.BaseActivity;
-
+import com.example.market.activity.MyApplication;
+import com.example.market.db.Userinfo;
+import com.example.market.web.HttpUtil;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import android.os.Bundle;
-import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 public class Main_activity_aboveright extends BaseActivity {  
     MapView mMapView = null;  
 	LocationClient mLocClient;
@@ -41,14 +41,17 @@ public class Main_activity_aboveright extends BaseActivity {
 	// UI相关
 	TextView textView1;
 	Button requestLocButton;
+	private String Longitude;
+	private String Latitude;
 	boolean isFirstLoc = true;// 是否首次定位
+	boolean isFirstupload = true;//是否首次上传
     @Override
 	public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);   
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext  
         //注意该方法要再setContentView方法之前实现  
         SDKInitializer.initialize(getApplicationContext());  
-        setContentView(R.layout.main_activity_aboveright);  
+        setContentView(R.layout.main_activity_aboveright);
         //获取地图控件引用
         setTitle("位置信息");
         requestLocButton = (Button) findViewById(R.id.main_activity_aboveright_button);
@@ -92,11 +95,7 @@ public class Main_activity_aboveright extends BaseActivity {
 		option.setScanSpan(1000);
 		mLocClient.setLocOption(option);
 		mLocClient.start();
-    }
-		
-		
-		
-
+    }					
     public void setLocationMode(LocationMode mode)
     {
     		
@@ -115,17 +114,26 @@ public class Main_activity_aboveright extends BaseActivity {
 					.longitude(location.getLongitude()).build();
 			mBaiduMap.setMyLocationData(locData);			
 			textView1.setText("我的位置："+location.getAddrStr());
-			/*LatLng llText = new LatLng(location.getLatitude(),location.getLongitude());  
-			//构建文字Option对象，用于在地图上添加文字  
-			OverlayOptions textOption = new TextOptions()  
-			    .bgColor(0xAAFFFF00)  
-			    .fontSize(24)  
-			    .fontColor(0xFFFF00FF)  
-			    .text(location.getAddrStr())  
-			    .rotate(0)  
-			    .position(llText);  
-			//在地图上添加该文字对象并显示 
-			mBaiduMap.addOverlay(textOption);*/
+			Latitude = String.valueOf(location.getLatitude());
+			Longitude =String.valueOf(location.getLongitude());
+			if (isFirstupload) {
+				DbUtils dbUtil=DbUtils.create(Main_activity_aboveright.this,"market");
+		    	Userinfo userinfo = null;
+				try {
+					userinfo = dbUtil.findById(Userinfo.class, 1);
+				} catch (DbException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(userinfo.isIsnetwork())
+				{
+					PutToService();
+				}else {
+					Toast.makeText(Main_activity_aboveright.this,"登录时没有联网，请重新登录" ,Toast.LENGTH_LONG ).show();
+				}
+				
+				isFirstupload=false;
+			}
 			if (isFirstLoc) {
 				isFirstLoc = false;
 				LatLng ll = new LatLng(location.getLatitude(),
@@ -138,6 +146,43 @@ public class Main_activity_aboveright extends BaseActivity {
 		public void onReceivePoi(BDLocation poiLocation) {
 		}
 	}
+    protected void PutToService() {
+		 
+		 MyApplication application = (MyApplication)getApplication();
+		 int userId= application.getCurIndex();
+		 String urlString=application.getUrl()+"android/addLocation.jsp";
+		 RequestParams qParams=new RequestParams();
+		 qParams.put("userId", String.valueOf(userId));
+		 qParams.put("Longitude", Longitude);
+		 qParams.put("Latitude", Latitude);
+		 HttpUtil.post(urlString, qParams,new AsyncHttpResponseHandler(){			 
+			 @Override
+				public void onSuccess(int a,String response) {
+					// TODO Auto-generated method stub
+					  try
+					  {
+						if(a==200)
+						{
+							JSONObject jsonObject=new JSONObject(response);
+							if(jsonObject.getInt("resCode")!=0)
+							{
+								Toast.makeText(Main_activity_aboveright.this, "上传位置失败:"+jsonObject.getString("resMsg"),
+										Toast.LENGTH_LONG).show();
+								Log.d("resMsg", jsonObject.getString("resMsg"));
+							}
+						}
+					  	else {
+					  		Toast.makeText(Main_activity_aboveright.this, "上传位置失败:"+response,
+									Toast.LENGTH_LONG).show();
+						}
+		                Log.d("location", response.toString());
+					  }catch(Exception e){
+						  Toast.makeText(Main_activity_aboveright.this, "上传位置失败:",
+									Toast.LENGTH_LONG).show();
+					  }
+				}
+		        });
+    }
     @Override  
     protected void onDestroy() {  
         super.onDestroy();  

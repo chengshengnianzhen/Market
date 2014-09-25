@@ -1,17 +1,21 @@
 package com.example.market;
 
-import com.example.market.R.color;
-import com.example.market.R.id;
-import com.example.market.activity.BaseActivity;
 
-import android.app.Activity;
+
+import com.example.market.R.color;
+import com.example.market.activity.BaseActivity;
+import com.example.market.dialog.Effectstype;
+import com.example.market.dialog.NiftyDialogBuilder;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Main_activity_center extends BaseActivity
 {
@@ -32,7 +36,7 @@ public class Main_activity_center extends BaseActivity
 				startActivity(intent);
 				finish();
 			}
-		});
+		}); 
 		buttonstart.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -61,4 +65,51 @@ public class Main_activity_center extends BaseActivity
 			}
 		});
 	}
+	public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();  
+        inflater.inflate(R.menu.question, menu);          
+        return true;
+    }
+  public boolean onOptionsItemSelected(MenuItem item) {  
+        switch (item.getItemId()) {  
+        case android.R.id.home:  
+            // 当ActionBar图标被点击时调用  
+        	// TODO Auto-generated method stub
+			Intent intent=new Intent(this,Main_activity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			finish();
+			return true;
+        case R.id.menu_build:
+            NiftyDialogBuilder dialogBuilder=NiftyDialogBuilder.getInstance(this);
+            Effectstype effect=Effectstype.Slidetop;
+            dialogBuilder.withTitle("")
+            .withTitleColor("#FFFFFF")
+            .withDividerColor("#11000000")
+            .withIcon(getResources().getDrawable(R.drawable.ic_launcher))
+            .withEffect(effect)
+            .withButton1Text("查看")
+            .withButton2Text("删除")
+            .setButton1Click(new View.OnClickListener() {
+                 @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(),"i'm btn1",Toast.LENGTH_SHORT).show();
+                }
+            })
+            .setButton2Click(new View.OnClickListener() {
+                 @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(),"i'm btn2",Toast.LENGTH_SHORT).show();
+                }
+            })
+            .show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+        }  
+    } 
+	
+	
 }

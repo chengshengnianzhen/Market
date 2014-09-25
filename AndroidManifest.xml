@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.market"
-    android:versionCode="1"
-    android:versionName="1.1" >
+    android:versionCode="0"
+    android:versionName="0.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -31,6 +31,7 @@
 <!--SD卡读取权限，用户写入离线定位数据-->
 <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
 <!--允许应用读取低级别的系统日志文件 -->
+ <uses-permission  android:name="android.permission.CALL_PHONE" />
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.GET_ACCOUNTS" />  
 	<uses-permission android:name="android.permission.USE_CREDENTIALS" />  
@@ -51,7 +52,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name="com.example.market.activity.MyApplication" >
          <meta-data  
         android:name="com.baidu.lbsapi.API_KEY"  
         android:value="ziZD9AwLZZjUUT0AnMF0004j" />
@@ -77,10 +79,14 @@
       	<activity android:name="com.example.market.Main_activity_centerleft_listview"></activity>
       	<activity android:name="com.example.market.Main_activity_bottom"></activity>
       	<activity android:name="com.example.market.Main_activity_bottomleft"></activity>
+      	<activity android:name="com.example.market.Main_activity_above_download"></activity>
       	<activity android:name="com.example.market.Main_activity_bottomright"></activity>
       	<activity android:name="com.example.market.Main_activity_center"></activity>
       	<activity android:name="com.example.market.Main_activity_centerright"></activity>
+      	<activity android:name="com.example.market.Main_activity_above_upload_photo"></activity>
       	<activity android:name="com.example.market.Main_activity_center_questionnaire"></activity>
+      	<activity android:name="com.example.market.Main_activity_aboveleft_list"></activity>
+      	<activity android:name="com.example.market.Main_activity_centerright_questionnaire"></activity>
       	<activity android:name="com.example.market.activity.BaseActivity"
       	    android:theme="@android:style/Theme.Holo.Light.DarkActionBar"></activity>
       	<service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">

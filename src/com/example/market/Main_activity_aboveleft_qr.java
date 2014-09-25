@@ -193,7 +193,7 @@ public class Main_activity_aboveleft_qr extends Activity implements Callback
 				startActivity(intent);
 				finish();*/
 				Intent intent=new Intent(Main_activity_aboveleft_qr.this,Main_activity_aboveleft_result.class);
-				intent.putExtra("name", obj.getText());
+				intent.putExtra("message", obj.getText());
 				startActivity(intent);//这里就是可以修改结果的地方，就是得到了扫描的信息之后导入要显示的页面
 			}
 		});

@@ -15,6 +15,7 @@
           android:gravity="center"
           android:layout_marginLeft="10dp"
           android:id="@+id/main_activity_aboveleft_findedit"
+          android:inputType="textNoSuggestions"
           />  
          <ImageButton 
              android:layout_width="80dp"
