@@ -65,9 +65,14 @@ public class Main_LoginActivity extends Activity {
 					e.printStackTrace();
 				}				
 			}
+			else
+			{
+				LogUtils.d("不用更新");
+			}
 		}
 		
 		rootPath =Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/MyMarketApp";
+		userName =(EditText) findViewById(R.id.et_zh);
 		password = (EditText) findViewById(R.id.et_mima);
 		btn_login = (Button) findViewById(R.id.btn_login);
 		btnQuit = (ImageButton) findViewById(R.id.img_btn);
@@ -175,6 +180,7 @@ public class Main_LoginActivity extends Activity {
 									userinfo.setUserId(userId);
 									userinfo.setId(1);
 									db.update(userinfo);
+									LogUtils.d(String.valueOf(db.findFirst(Userinfo.class).getId()));
 								}else {
 									userinfo=new Userinfo();
 									userinfo.setIsnetwork(NetWorkHelper.checkNetState(Main_LoginActivity.this));
@@ -183,12 +189,10 @@ public class Main_LoginActivity extends Activity {
 									userinfo.setUsername(userNameValue);
 									userinfo.setPassword(passwordValue);
 									userinfo.setUserId(userId);
-									userinfo.setId(1);
-									db.save(userinfo);
+									LogUtils.d("2");
+									db.saveBindingId(userinfo);
+									LogUtils.d(String.valueOf(db.findFirst(Userinfo.class).getId()));
 								}
-								
-								
-								//db.update(userinfo, whereBuilder, updateColumnNames)
 								LogUtils.d(db.toString()+userinfo.toString());
 								// 跳转界面
 								Intent intent = new Intent(Main_LoginActivity.this,

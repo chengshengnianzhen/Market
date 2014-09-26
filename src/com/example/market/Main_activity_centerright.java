@@ -116,7 +116,6 @@ public class Main_activity_centerright extends BaseActivity
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
-					//下载这个数据
 					Gson gson=new Gson();
 					Intent intent= new Intent(Main_activity_centerright.this,Main_activity_centerright_questionnaire.class);
 					String message=gson.toJson(askList.get(position));

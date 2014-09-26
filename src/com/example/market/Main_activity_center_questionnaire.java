@@ -1,23 +1,21 @@
 package com.example.market;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import org.json.JSONObject;
 
-import com.baidu.platform.comapi.map.p;
 import com.example.market.activity.BaseActivity;
 import com.example.market.activity.MyApplication;
-import com.example.market.utils.Company;
+import com.example.market.db.question;
+import com.example.market.dialog.Effectstype;
+import com.example.market.dialog.NiftyDialogBuilder;
 import com.example.market.utils.Questionnaire;
 import com.example.market.web.HttpUtil;
 import com.google.gson.Gson;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import android.R.string;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,8 +31,7 @@ import android.widget.Toast;
 public class Main_activity_center_questionnaire extends BaseActivity
 {	
 	private String name,number;
-	private ProgressDialog pDialog;
-	private ArrayList<Company> askList = new ArrayList<Company>();
+	private NiftyDialogBuilder niftyDialogBuilder;
 	private RadioGroup radioGroup1_1,radioGroup1_2,radioGroup1_3,radioGroup1_4,radioGroup1_5,
 	radioGroup1_6,radioGroup1_7,radioGroup1_8,radioGroup2_1,radioGroup2_2,radioGroup2_3,
 	radioGroup2_4,radioGroup2_5,radioGroup2_6,radioGroup3_1,radioGroup3_2,radioGroup3_3,
@@ -57,16 +54,15 @@ public class Main_activity_center_questionnaire extends BaseActivity
 		init();
 		Button buttonupload=(Button)findViewById(R.id.main_activity_center_questionnaireupload);
 		Button buttonreturn =(Button)findViewById(R.id.main_activity_center_questionnairereturn);
+		buttonreturn.setText("保存");
 		buttonreturn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent(Main_activity_center_questionnaire.this,Main_activity.class);
-				startActivity(intent);
-				finish();
+				baocun();
 			}
-		});//返回按钮，就是什么也没做。
+		});
 		buttonupload.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -153,26 +149,34 @@ public class Main_activity_center_questionnaire extends BaseActivity
 		if(!TextUtils.isEmpty(editTextname.getText())&&!TextUtils.isEmpty(editTextunit.getText()))
 		{
 			Log.d("onClick", "onClick");
-			AlertDialog.Builder builder = new Builder(Main_activity_center_questionnaire.this);
-			builder.setTitle("提示");
-			builder.setMessage("确认上传吗");
-			Log.d("builder", "builder");
-			builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
-				
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-				}	
-			});
-			builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-				
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-					postToService();
-				}
-			});
-			builder.create().show();
+			Effectstype effectstype=Effectstype.Slidetop;
+			niftyDialogBuilder=NiftyDialogBuilder.getInstance(this);
+			niftyDialogBuilder.withTitle("确认上传吗？")
+								.withIcon(R.drawable.index_c)
+								.withMessage(null)
+								.withEffect(effectstype)
+								.withNoEdit()
+								.withButton1Text("上传")
+								.withButton2Text("取消")
+								.setButton1Click(new View.OnClickListener() {
+									
+									@Override
+									public void onClick(View v) {
+										// TODO Auto-generated method stub
+										niftyDialogBuilder.dismiss();
+										postToService();
+										niftyDialogBuilder.dismiss();
+									}
+								})
+								.setButton2Click(new View.OnClickListener() {
+									
+									@Override
+									public void onClick(View v) {
+										// TODO Auto-generated method stub
+										niftyDialogBuilder.dismiss();
+									}
+								})
+								.show();
 		}			
 	}
 	private void postToService()
@@ -183,6 +187,49 @@ public class Main_activity_center_questionnaire extends BaseActivity
 		String url=application.getUrl()+"android/addRecord.jsp";
 		Log.d("userId",String.valueOf(userId)+url);
 		RequestParams params = new RequestParams(); // 绑定参数		
+		String contont =initDate(userId);
+		params.put("content", contont);
+		Log.d("content", contont);
+		params.put("userId",String.valueOf(userId));
+		HttpUtil.post(url,params, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(JSONObject response) {
+				int resCode = -1;
+				String resMsg;
+				System.out.println("success:"+response.toString());
+				try {					
+					resCode= response.getInt("resCode");
+					resMsg = response.getString("resMsg");
+					if (resCode == 0) {
+						System.out.println("end");
+						// 跳转界面
+						Toast.makeText(Main_activity_center_questionnaire.this, "上传成功，返回主界面",
+								Toast.LENGTH_LONG).show();
+						
+					}else {
+						Log.d("resMsg", resMsg);
+						Toast.makeText(Main_activity_center_questionnaire.this, "上传失败"+resMsg,
+								Toast.LENGTH_LONG).show();
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					System.out.println("Error:" + e.toString());
+					resCode = -1;							
+					Toast.makeText(Main_activity_center_questionnaire.this, "上传失败",
+							Toast.LENGTH_LONG).show();
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable rThrowable) {
+				System.out.println(rThrowable);
+			}
+		});
+	}
+	
+	private String initDate(int userId)
+	{
 		Questionnaire questionnaire=new Questionnaire();
 		questionnaire.setUserId(userId);
 		questionnaire.setCompanyName(name);
@@ -247,51 +294,13 @@ public class Main_activity_center_questionnaire extends BaseActivity
 	   questionnaire.setGlShouXuFlag(judge(radioButton43.getText().toString()));
        questionnaire.setGlShouXuDetail(editText4_3.getText().toString());
 	   questionnaire.setId(userId);			   
-	    Gson gson=new Gson();			   
-		String contont=gson.toJson(questionnaire);
-		params.put("content", contont);
-		Log.d("content", contont);
-		params.put("userId",String.valueOf(userId));
-		HttpUtil.post(url,params, new JsonHttpResponseHandler() {
-			@Override
-			public void onSuccess(JSONObject response) {
-				int resCode = -1;
-				String resMsg;
-				System.out.println("success:"+response.toString());
-				try {					
-					resCode= response.getInt("resCode");
-					resMsg = response.getString("resMsg");
-					if (resCode == 0) {
-						System.out.println("end");
-						// 跳转界面
-						Toast.makeText(Main_activity_center_questionnaire.this, "上传成功，返回主界面",
-								Toast.LENGTH_LONG).show();
-						Intent intent =new Intent(Main_activity_center_questionnaire.this,Main_activity.class);
-						startActivity(intent);
-						finish();
-					}else {
-						Log.d("resMsg", resMsg);
-						Toast.makeText(Main_activity_center_questionnaire.this, "上传失败"+resMsg,
-								Toast.LENGTH_LONG).show();
-					}
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					System.out.println("Error:" + e.toString());
-					resCode = -1;							
-					Toast.makeText(Main_activity_center_questionnaire.this, "上传失败",
-							Toast.LENGTH_LONG).show();
-				}
-			}
-
-			@Override
-			public void onFailure(Throwable rThrowable) {
-				System.out.println(rThrowable);
-			}
-		});
+	   Gson gson=new Gson();			   
+	   String contont=gson.toJson(questionnaire);	   
+	   return contont;
 	}
-	 private boolean judge(String string)
-	    {
+	
+	private boolean judge(String string)
+	{
 	    	 if(string.endsWith("是"))
 	    	{
 	    		return true;
@@ -299,5 +308,30 @@ public class Main_activity_center_questionnaire extends BaseActivity
 	    	else {
 				return false;
 			}
-	    }
+	 }
+	 private void baocun()
+	 {
+		MyApplication application = (MyApplication)getApplication();
+		int userId=application.getCurIndex();
+		Log.d("userId",String.valueOf(userId));
+		String content =initDate(userId);
+		DbUtils dbUtils=DbUtils.create(this,"market");
+		question question1=new question();
+		question1.setUserId(userId);
+		question1.setName(name);
+		question1.setNumber(number);
+		question1.setContent(content);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-D");
+		String date=sdf.format(new java.util.Date());
+		LogUtils.d(name+number+content+date);
+		question1.setTime(date);
+		try {
+			dbUtils.saveBindingId(question1);
+			Toast.makeText(this, "保存成功", Toast.LENGTH_LONG);
+		} catch (DbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Toast.makeText(this, "保存失败", Toast.LENGTH_LONG);
+		}
+	 }
 }

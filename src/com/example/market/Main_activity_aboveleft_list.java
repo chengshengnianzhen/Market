@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.example.market.Main_activity_center.item;
 import com.example.market.activity.BaseActivity;
 import com.example.market.activity.MyApplication;
 import com.example.market.utils.Company;
@@ -20,16 +21,21 @@ import com.loopj.android.http.RequestParams;
 import android.R.integer;
 import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View; 
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -114,12 +120,14 @@ public class Main_activity_aboveleft_list extends BaseActivity
 			askList.addAll(list);
 			Log.d("Company", "create(JSONArray jsonArray)");
 			Log.d("askList.size()", String.valueOf(askList.size()));
-			for(int i=0;i<askList.size();i++)
-			{
-				items.add(askList.get(i).getName());
-			}
-		    listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,items));
-		    Log.d("listView", "listView1");
+//			for(int i=0;i<askList.size();i++)
+//			{
+//				items.add(askList.get(i).getName());
+//			}
+//		    listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,items));
+//		    Log.d("listView", "listView1");
+			mAdapter mAdapter1=new mAdapter(this);
+			listView.setAdapter(mAdapter1);
 		    listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
@@ -135,5 +143,68 @@ public class Main_activity_aboveleft_list extends BaseActivity
 				});
 			Log.d("listView", "listView2");
 		}
-	 
+		public class mAdapter extends BaseAdapter {  
+        	
+            private LayoutInflater layoutInflater;  
+            private Context context;   
+            
+            public mAdapter(Context context) {  
+                  
+                this.context = context;    
+                this.layoutInflater = LayoutInflater.from(context);  
+            }  
+          
+            /** 
+             *获取列数  
+             */  
+            public int getCount() {  
+                return askList.size();  
+            }  
+            /** 
+             *获取某一位置的数据  
+             */  
+            public Object getItem(int position) {  
+                return position;  
+            }  
+            /** 
+             *获取唯一标识 
+             */  
+            public long getItemId(int position) {  
+                return position;  
+            }  
+          
+            /** 
+             * android绘制每一列的时候，都会调用这个方法 
+             */  
+            public View getView(int position, View convertView, ViewGroup parent) {  
+            	item witem=new item();   
+                if(convertView==null){  
+                    // 获取组件布局  
+                    convertView = layoutInflater.inflate(R.layout.listitem, null);    
+                    witem.titleView = (TextView) convertView.findViewById(R.id.listviewitem1);  
+                    witem.infoView = (TextView) convertView.findViewById(R.id.listviewitem2);  
+                    witem.thirdView = (TextView) convertView.findViewById(R.id.listviewitem3);
+                    witem.thirdView.setVisibility(View.GONE);
+                    // 这里要注意，是使用的tag来存储数据的。  
+                    convertView.setTag(witem);  
+                }  
+                else {  
+                    witem = (item) convertView.getTag();  
+                }  
+                // 绑定数据、以及事件触发    
+                witem.titleView.setText(askList.get(position).getName());
+                witem.infoView.setText(askList.get(position).getNumber());
+                //witem.thirdView.setText(askList.get(position).getTime());
+                return convertView;  
+            }   
+          
+    } 
+    public final class item {  
+            
+            public TextView titleView;  
+            public TextView infoView;  
+            public TextView thirdView;  
+              
+              
+    }  
 }

@@ -31,7 +31,7 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="#aaaaaa"
+        android:background="@drawable/actionbar_gradient_bg"
         android:clickable="false"
         android:orientation="vertical"
         android:visibility="visible">
@@ -40,16 +40,16 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
             android:id="@+id/topPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#22000000"
+            android:background="@drawable/actionbar_gradient_bg"
             android:orientation="vertical">
-
+            
             <RelativeLayout
                 android:id="@+id/title_template"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
              >
 
-                <ImageView
+             <ImageView
                     android:id="@+id/icon"
                     android:layout_width="32dp"
                     android:layout_height="wrap_content"
@@ -94,19 +94,45 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                 android:layout_marginRight="15dp"
                 android:paddingBottom="8dip"
                 android:paddingTop="8dip"
-                android:textColor="#999999"
+                android:textColor="#ffffff"
                 android:textIsSelectable="true" />
         </LinearLayout>
+		<LinearLayout 
+		    android:id="@+id/editlinear"
+		    android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical"     
+		    >
 
+		    <EditText 
+			    android:id="@+id/editname"
+			    android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="15dp"
+	            android:layout_marginRight="15dp"
+	            android:hint="请输入企业名称"/>
+		    <EditText 
+			    android:id="@+id/editnumber"
+			    android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="15dp"
+	            android:layout_marginRight="15dp"
+	            android:hint="请输入企业注册号"/>
+		</LinearLayout>
         <FrameLayout
             android:id="@+id/customPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"></FrameLayout>
+            android:layout_weight="1">
+            
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <Button
                 android:id="@+id/button1"

@@ -36,10 +36,16 @@ public class Main_activity_aboveleft extends BaseActivity
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				DbUtils dbUtil=DbUtils.create(Main_activity_aboveleft.this,"matket");
+				DbUtils dbUtil=DbUtils.create(Main_activity_aboveleft.this,"market");
 		    	Userinfo userinfo = null;
 				try {
-					userinfo = dbUtil.findById(Userinfo.class, 1);
+					userinfo = dbUtil.findFirst(Userinfo.class);
+					if (userinfo!=null) {
+						LogUtils.d(userinfo.toString());
+					}
+					else {
+						LogUtils.d("null");
+					}
 				} catch (DbException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -69,7 +75,7 @@ public class Main_activity_aboveleft extends BaseActivity
 	        // Inflate the menu; this adds items to the action bar if it is present.
 	        super.onCreateOptionsMenu(menu);
 	        MenuInflater inflater = getMenuInflater();  
-	        inflater.inflate(R.menu.erwei, menu);          
+	        inflater.inflate(R.menu.er, menu);          
 	        return true;
 	    }
 	  public boolean onOptionsItemSelected(MenuItem item) {  
@@ -87,6 +93,11 @@ public class Main_activity_aboveleft extends BaseActivity
 		    	Userinfo userinfo = null;
 				try {
 					userinfo = dbUtil.findById(Userinfo.class, 1);
+					if (userinfo!=null) {
+						LogUtils.d(userinfo.toString());
+					}else {
+						LogUtils.d("null");
+					}
 				} catch (DbException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

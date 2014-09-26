@@ -9,7 +9,7 @@ import com.lidroid.xutils.db.annotation.Table;
  * Time: 2014年9月24日14:31:10
  */
 // 建议加上注解， 混淆后表名不受影响
-@Table(name = "Userinfo", execAfterTableCreated = "CREATE UNIQUE INDEX index_name ON parent(userId)")
+@Table(name = "Userinfo", execAfterTableCreated = "CREATE UNIQUE INDEX index_name ON Userinfo (userId)")
 public class Userinfo extends EntityBase {
 
     @Column(column = "userId") // 建议加上注解， 混淆后列名不受影响

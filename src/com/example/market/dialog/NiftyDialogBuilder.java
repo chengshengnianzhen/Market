@@ -2,18 +2,17 @@ package com.example.market.dialog;
 
 import com.example.market.R;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,6 +48,8 @@ public class NiftyDialogBuilder extends Dialog implements DialogInterface {
     private LinearLayout mLinearLayoutTopView;
 
     private FrameLayout mFrameLayoutCustomView;
+    
+    private LinearLayout mLayoutEditview;
 
     private View mDialogView;
 
@@ -63,6 +64,10 @@ public class NiftyDialogBuilder extends Dialog implements DialogInterface {
     private Button mButton1;
 
     private Button mButton2;
+    
+    private EditText editText;
+    
+    private EditText editText2;
 
     private int mDuration = -1;
 
@@ -107,14 +112,17 @@ public class NiftyDialogBuilder extends Dialog implements DialogInterface {
         mLinearLayoutTopView=(LinearLayout)mDialogView.findViewById(R.id.topPanel);
         mLinearLayoutMsgView=(LinearLayout)mDialogView.findViewById(R.id.contentPanel);
         mFrameLayoutCustomView=(FrameLayout)mDialogView.findViewById(R.id.customPanel);
-
+        mLayoutEditview=(LinearLayout)mDialogView.findViewById(R.id.editlinear);
+        
         mTitle = (TextView) mDialogView.findViewById(R.id.alertTitle);
         mMessage = (TextView) mDialogView.findViewById(R.id.message);
         mIcon = (ImageView) mDialogView.findViewById(R.id.icon);
         mDivider = mDialogView.findViewById(R.id.titleDivider);
         mButton1=(Button)mDialogView.findViewById(R.id.button1);
         mButton2=(Button)mDialogView.findViewById(R.id.button2);
-
+        editText=(EditText)mDialogView.findViewById(R.id.editname);
+        editText2=(EditText)mDialogView.findViewById(R.id.editnumber);
+        
         setContentView(mDialogView);
 
         this.setOnShowListener(new OnShowListener() {
@@ -162,7 +170,19 @@ public class NiftyDialogBuilder extends Dialog implements DialogInterface {
         return this;
     }
 
-    public NiftyDialogBuilder withMessage(int textResId) {
+    public EditText getEditText() {
+		return editText;
+	}
+	public void setEditText(EditText editText) {
+		this.editText = editText;
+	}
+	public EditText getEditText2() {
+		return editText2;
+	}
+	public void setEditText2(EditText editText2) {
+		this.editText2 = editText2;
+	}
+	public NiftyDialogBuilder withMessage(int textResId) {
         toggleView(mLinearLayoutMsgView,textResId);
         mMessage.setText(textResId);
         return this;
@@ -203,6 +223,12 @@ public class NiftyDialogBuilder extends Dialog implements DialogInterface {
         mButton2.setBackgroundResource(resid);
         return this;
     }
+    
+    public NiftyDialogBuilder withNoEdit(){
+    	toggleView(mLayoutEditview, null);
+    	return this;
+    }
+    
     public NiftyDialogBuilder withButton1Text(CharSequence text) {
         mButton1.setVisibility(View.VISIBLE);
         mButton1.setText(text);
